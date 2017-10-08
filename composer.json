@@ -1,0 +1,31 @@
+{
+  "name": "mate/queue-bundle",
+  "description": "Queue (producers + consumers) system for Symfony framework based on Pheanstalk",
+  "keywords": [
+    "symfony3",
+    "queue",
+    "producers",
+    "consumers",
+    "jobs",
+    "tasks"
+  ],
+  "website": "https://www.mate.tn",
+  "homepage": "https://github.com/MateHelpers/QueueBundle",
+  "type": "symfony-bundle",
+  "require": {
+    "php": ">=7.0",
+    "pda/pheanstalk": "^3.1"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mohamed Radhi Guennichi",
+      "email": "rg@mate.tn"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Mate\\QueueBundle\\": ""
+    }
+  }
+}

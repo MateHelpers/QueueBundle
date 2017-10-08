@@ -1,0 +1,22 @@
+services:
+#    mate_queue.example:
+#        class: Mate\QueueBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    mate.queue.worker:
+        class: Mate\QueueBundle\Worker\Worker
+        arguments: ['%mate_worker_host%']
+
+    mate.queue.worker.producer:
+        class: Mate\QueueBundle\Worker\Producer
+
+    mate.queue.worker.consumer:
+        class: Mate\QueueBundle\Worker\Consumer
+
+    mate.queue.job.listener:
+        class: Mate\QueueBundle\EventListener\JobListener
+        tags:
+          - { name: kernel.event_listener, event: mate.queue.job.initialized, method: onInitialized }
+          - { name: kernel.event_listener, event: mate.queue.job.executed, method: onExecuted }
+          - { name: kernel.event_listener, event: mate.queue.job.failed, method: onFailed }
+          - { name: kernel.event_listener, event: mate.queue.job.deleted, method: onDeleted }

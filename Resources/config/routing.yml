@@ -1,0 +1,3 @@
+#mate_queue_homepage:
+#    path:     /
+#    defaults: { _controller: MateQueueBundle:Default:index }
