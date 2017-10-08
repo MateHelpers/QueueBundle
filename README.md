@@ -96,45 +96,45 @@ Now lets write some basic code to send mail to the authenticated user in our **h
 
 ```php
 /**
-     * Method used to execute this job
-     * by our Queue worker later
-     */
-    public function handle()
-    {
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('send@example.com')
-            ->setTo($this->user->getEmail())
-            ->setBody('Confirmation mail here', 'text/plain')
-        ;
+ * Method used to execute this job
+ * by our Queue worker later
+ */
+public function handle()
+{
+    $message = (new \Swift_Message('Hello Email'))
+        ->setFrom('send@example.com')
+        ->setTo($this->user->getEmail())
+        ->setBody('Confirmation mail here', 'text/plain')
+    ;
 
-        $this->mailerService->send($message);
-    }
+    $this->mailerService->send($message);
+}
 ```
 That's it :), the last thing we should do here is to call the Producer service in our controller and pass this job to its the `produce()` method
 
 ```php
 /**
-     * @param Producer $producer
-     * @param \Swift_Mailer $mailerService
-     *
-     * @return Response
-     *
-     * @Route("/", name="homepage")
-     * @Security("has_role('ROLE_USER')")
-     *
-     * @throws \Exception
-     */
-    public function indexAction( Producer $producer, \Swift_Mailer $mailerService ): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
+ * @param Producer $producer
+ * @param \Swift_Mailer $mailerService
+ *
+ * @return Response
+ *
+ * @Route("/", name="homepage")
+ * @Security("has_role('ROLE_USER')")
+ *
+ * @throws \Exception
+ */
+public function indexAction( Producer $producer, \Swift_Mailer $mailerService ): Response
+{
+    /** @var User $user */
+    $user = $this->getUser();
 
-        // Produce the job to our Pheanstalk server
-        // And injecting the desired services
-        $producer->produce(new ConfirmationMailJob($user, $mailerService), 3);
+    // Produce the job to our Pheanstalk server
+    // And injecting the desired services
+    $producer->produce(new ConfirmationMailJob($user, $mailerService), 3);
 
-        return $this->render('default/index.html.twig');
-    }
+    return $this->render('default/index.html.twig');
+}
 ```
 That's it :), you're done.
 Please note that the `produce(Job $job, $delay = 0, $timeToRun = 60)` method accept these parameters:
