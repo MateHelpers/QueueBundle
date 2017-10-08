@@ -45,7 +45,7 @@ Add the your pheanstalk server host parameter to the `app/config/parameters.yml`
 mate_worker_host: 127.0.0.1
 ```
 ## Getting started
-This bundle make it simple to create your own jobs/tasks that takes long time to executed. Let's imagine that we have an application that sends confirmation mails to users.
+This bundle make it simple to create your own jobs/tasks that takes long time to executed. Let's imagine that we have an application that send confirmation mails to users.
 
 ### Create Job (ConfirmationMailJob.php)
 Let's create a class called `ConfirmationMailJob.php` in `AppBundle\Job` namespace
