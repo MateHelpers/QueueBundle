@@ -1,14 +1,14 @@
 # QueueBundle
 Queue (producers + consumers) system for Symfony framework based on Pheanstalk
 
-### Requirements
+## Requirements
 
  - PHP >= 7.0
  - Symfony 3
  - [Beanstalkd workqueue](http://xph.us/software/beanstalkd/) installed locally
  
-### Installation
-#### Step 1: Download the Bundle
+## Installation
+### Step 1: Download the Bundle
 
 Open a command console, enter your project directory and execute the following command to download the latest version of this bundle:
 
@@ -16,7 +16,7 @@ Open a command console, enter your project directory and execute the following c
 $ composer require mate/queue-bundle dev-master
 ```
 
-#### Step 2: Enable the Bundle
+### Step 2: Enable the Bundle
 
 Then, enable the bundle by adding it to the list of registered bundles in the `app/AppKernel.php` file of your project:
 
@@ -36,7 +36,7 @@ class AppKernel extends Kernel
 }
 ```
 
-#### Step 3: Add the overriding parameter
+### Step 3: Add the overriding parameter
 
 Add the your pheanstalk server host parameter to the `app/config/parameters.yml` file:
 
@@ -44,10 +44,10 @@ Add the your pheanstalk server host parameter to the `app/config/parameters.yml`
 # app/config/parameters.yml
 mate_worker_host: 127.0.0.1
 ```
-### Getting started
+## Getting started
 This bundle make it simple to create your own jobs/tasks that takes long time to executed. Let's imagine that we have an application that sends confirmation mails to users.
 
-#### Create Job (ConfirmationMailJob.php)
+### Create Job (ConfirmationMailJob.php)
 Let's create a class called `ConfirmationMailJob.php` in `AppBundle\Job` namespace
 
 ```php
@@ -143,7 +143,7 @@ Please note that the `produce(Job $job, $delay = 0, $timeToRun = 60)` method acc
  2. Delay (seconds): by default 0 - no delay
  3. Time to run (seconds): by default 60
 
-#### Run the queue worker
+### Run the queue worker
 The last thing we should do is to listen to the executed jobs on our application, to do this you have to run the command
 ```bash
 $ php bin/console mate:queue:work
@@ -158,9 +158,9 @@ Now try to run your application server, and navigate to http://localhost:8000/ ,
 
 Make sure to find some tools like Supervisor to automatically restart your `mate:queue:work` process if it fails.
 
-### Advanced topics
+## Advanced topics
 
-#### Queue Events
+### Queue Events
 This package provide some events to help you manage your jobs (`Mate\QueueBundle\Event\JobEvent`):
 
  - **MATE_QUEUE_JOB_INITIALIZED** (onInitialized)
@@ -169,3 +169,4 @@ This package provide some events to help you manage your jobs (`Mate\QueueBundle
  - **MATE_QUEUE_JOB_DELETED** (onDeleted)
 
 // TODO
+
