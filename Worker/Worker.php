@@ -63,4 +63,12 @@ class Worker
     {
         return $this->connection->getConnection()->isServiceListening();
     }
+    
+    /**
+     * @return Pheanstalk
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
 }
