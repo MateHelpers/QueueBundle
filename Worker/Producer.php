@@ -18,7 +18,7 @@ class Producer extends Worker
      *
      * @throws \Exception
      */
-    public function produce( Job $job, $delay = PheanstalkInterface::DEFAULT_DELAY, $timeToRun = PheanstalkInterface::DEFAULT_TTR )
+    public function produce( Job $job, $delay = PheanstalkInterface::DEFAULT_DELAY, $timeToRun = 600 )
     {
         $this->denyUnlessListening();
 
