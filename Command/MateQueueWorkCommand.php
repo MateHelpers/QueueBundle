@@ -55,7 +55,9 @@ class MateQueueWorkCommand extends ContainerAwareCommand
                     // middleware here after running job
                     $dispatcher->dispatch(Events::MATE_QUEUE_JOB_EXECUTED, $event);
 
-                    $consumer->delete($initJob);
+                    if ($consumer->getConnection()->statsJob($job)) {
+                        $consumer->delete( $initJob );
+                    }
 
                     // middleware here after deleting job
                     $dispatcher->dispatch(Events::MATE_QUEUE_JOB_DELETED, $event);
@@ -64,7 +66,9 @@ class MateQueueWorkCommand extends ContainerAwareCommand
 
                     $dispatcher->dispatch(Events::MATE_QUEUE_JOB_FAILED, $event);
 
-                    $consumer->delete($initJob);
+                    if ($consumer->getConnection()->statsJob($job)) {
+                        $consumer->delete($initJob);
+                    }
                 }
             }
         }
