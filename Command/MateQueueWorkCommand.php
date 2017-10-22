@@ -17,8 +17,8 @@ class MateQueueWorkCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('mate:queue:work')
-            ->setDescription('Run queue worker for listening to received jobs')
+            ->setName( 'mate:queue:work' )
+            ->setDescription( 'Run queue worker for listening to received jobs' )
             ->addOption(
                 'no-debug',
                 null,
@@ -29,10 +29,10 @@ class MateQueueWorkCommand extends ContainerAwareCommand
 
     protected function execute( InputInterface $input, OutputInterface $output )
     {
-        $dispatcher = $this->getContainer()->get('event_dispatcher');
-        $consumer   = $this->getContainer()->get('mate.queue.worker.consumer');
+        $dispatcher = $this->getContainer()->get( 'event_dispatcher' );
+        $consumer   = $this->getContainer()->get( 'mate.queue.worker.consumer' );
 
-        if ( $input->getOption('no-debug') ) {
+        if ( $input->getOption( 'no-debug' ) ) {
             $output = new NullOutput();
         }
 
@@ -41,34 +41,34 @@ class MateQueueWorkCommand extends ContainerAwareCommand
 
             if ( $initJob ) {
                 /** @var MailJob $job */
-                $job = unserialize($initJob->getData(), [Job::class]);
-                $job->setId($initJob->getId());
+                $job = unserialize( $initJob->getData(), [ Job::class ] );
+                $job->setId( $initJob->getId() );
 
-                $event = ( new JobEvent($this, $input, $output) )->setJob($job);
+                $event = ( new JobEvent( $this, $input, $output ) )->setJob( $job );
 
                 // middleware here before running job (timeout)
-                $dispatcher->dispatch(Events::MATE_QUEUE_JOB_INITIALIZED, $event);
+                $dispatcher->dispatch( Events::MATE_QUEUE_JOB_INITIALIZED, $event );
 
                 try {
-                    $consumer->execute($job);
+                    $consumer->execute( $job );
 
                     // middleware here after running job
-                    $dispatcher->dispatch(Events::MATE_QUEUE_JOB_EXECUTED, $event);
+                    $dispatcher->dispatch( Events::MATE_QUEUE_JOB_EXECUTED, $event );
 
-                    if ($consumer->getConnection()->statsJob($job)) {
-                        $consumer->delete( $initJob );
-                    }
+                    $consumer->getConnection()->touch( $initJob );
+
+                    $consumer->delete( $initJob );
 
                     // middleware here after deleting job
-                    $dispatcher->dispatch(Events::MATE_QUEUE_JOB_DELETED, $event);
+                    $dispatcher->dispatch( Events::MATE_QUEUE_JOB_DELETED, $event );
 
                 } catch ( \Exception $exception ) {
 
-                    $dispatcher->dispatch(Events::MATE_QUEUE_JOB_FAILED, $event);
+                    $dispatcher->dispatch( Events::MATE_QUEUE_JOB_FAILED, $event );
 
-                    if ($consumer->getConnection()->statsJob($job)) {
-                        $consumer->delete($initJob);
-                    }
+                    $consumer->getConnection()->touch( $initJob );
+
+                    $consumer->delete( $initJob );
                 }
             }
         }
