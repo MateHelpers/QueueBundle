@@ -13,11 +13,30 @@ class JobEvent extends ConsoleCommandEvent
     /** @var Job */
     protected $job;
 
+    /** @var \Exception */
+    protected $exception;
+
     public function setJob( Job $job )
     {
         $this->job = $job;
 
         return $this;
+    }
+
+    /**
+     * @param \Exception $exception
+     */
+    public function setException( $exception )
+    {
+        $this->exception = $exception;
+    }
+
+    /**
+     * @return \Exception
+     */
+    public function getException()
+    {
+        return $this->exception;
     }
 
     /**

@@ -62,6 +62,8 @@ class MateQueueWorkCommand extends ContainerAwareCommand
 
                 } catch ( \Exception $exception ) {
 
+                    $event->setException($exception);
+
                     $dispatcher->dispatch( Events::MATE_QUEUE_JOB_FAILED, $event );
 
                     $consumer->delete( $initJob );

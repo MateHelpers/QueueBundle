@@ -45,6 +45,9 @@ class JobListener implements EventSubscriberInterface
         $message = sprintf('%s', $event->getJob()->getJobName());
 
         $output->writeln($event->getFormatter()->makeErrorMessage($message));
+        $output->writeln('-------------------------------------');
+        $output->writeln(sprintf('MESSAGE: %s', $event->getException()->getMessage()));
+        $output->writeln('-------------------------------------');
     }
 
     public function onDeleted( JobEvent $event )
