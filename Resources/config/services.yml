@@ -7,8 +7,9 @@ services:
         class: Mate\QueueBundle\Worker\Worker
         arguments: ['%mate_worker_host%']
 
-    mate.queue.worker.producer:
+    Mate\QueueBundle\Worker\Producer:
         class: Mate\QueueBundle\Worker\Producer
+        alias: mate.queue.worker.producer
 
     mate.queue.worker.consumer:
         class: Mate\QueueBundle\Worker\Consumer
