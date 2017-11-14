@@ -9,7 +9,6 @@ services:
 
     Mate\QueueBundle\Worker\Producer:
         class: Mate\QueueBundle\Worker\Producer
-        alias: mate.queue.worker.producer
 
     mate.queue.worker.consumer:
         class: Mate\QueueBundle\Worker\Consumer
