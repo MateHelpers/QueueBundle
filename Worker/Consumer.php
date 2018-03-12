@@ -3,13 +3,16 @@
 
 namespace Mate\QueueBundle\Worker;
 
+use SuperClosure\Serializer;
 
 class Consumer extends Worker
 {
     public function unserializeAndExecute( $data )
     {
+        $serializer = new Serializer();
+        
         /** @var Job $job */
-        $job = unserialize($data, [ Job::class ]);
+        $job = serialized->unserialize($data);
 
         return $this->execute($job);
     }
