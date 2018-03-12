@@ -12,7 +12,7 @@ class Consumer extends Worker
         $serializer = new Serializer();
         
         /** @var Job $job */
-        $job = serialized->unserialize($data);
+        $job = $serializer->unserialize($data);
 
         return $this->execute($job);
     }
