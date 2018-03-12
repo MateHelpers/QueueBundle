@@ -3,6 +3,7 @@
 
 namespace Mate\QueueBundle\Worker;
 
+use SuperClosure\Serializer;
 
 abstract class Job implements JobInterface
 {
@@ -18,7 +19,9 @@ abstract class Job implements JobInterface
 
     public function getJobPayload()
     {
-        return serialize($this);
+        $serializer = new Serializer();
+        
+        return $serializer->serialize($this);
     }
 
     public function getJobTube()
